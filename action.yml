@@ -1,0 +1,56 @@
+name: 'Build and push image to Registry'
+description: 'Build and push image to Registry'
+inputs:
+  registry:
+    description: 'Registry url'
+    required: true
+  namespace:
+    description: 'Namespace'
+    required: true
+  password:
+    description: 'Password'
+    required: true
+  access_key:
+    description: 'Access key'
+    required: true
+  username:
+    description: 'Username'
+    required: false
+    default: "userdoesnotmatter"
+  image_name:
+    description: 'Image name'
+    required: true
+  tag:
+    description: 'Image tags'
+    required: true
+  container_name:
+    description: 'Container name'
+    required: true
+  scw_cli_version:
+    description: 'Scaleway cli version'
+    required: false
+    default: "2.5.4"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: OpenSourcePolitics/build-and-push-images-action@master
+      with:
+        registry: ${{ inputs.registry }}
+        password: ${{ inputs.password }}
+        username: ${{ inputs.username }}
+        namespace: ${{ inputs.namespace }}
+        image_name: ${{ inputs.image_name }}
+        tag: ${{ inputs.tag }}
+    - name: Setup scw cli
+      run: |
+        sudo curl -o /usr/local/bin/scw -L "https://github.com/scaleway/scaleway-cli/releases/download/v${{ inputs.scw_cli_version }}/scaleway-cli_${{ inputs.scw_cli_version }}_linux_amd64"
+        sudo chmod +x /usr/local/bin/scw
+        scw init secret-key=${{ inputs.password }} access-key=${{ inputs.access_key }} install-autocomplete=false send-telemetry=false with-ssh-key=false
+      shell: bash
+    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+      shell: bash
+    - name: Deploy container
+      run: |
+        CONTAINER_NAME=${{ inputs.container_name }} python deploy.py
+      shell: bash
