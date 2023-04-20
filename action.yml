@@ -29,7 +29,7 @@ inputs:
   scw_cli_version:
     description: 'Scaleway cli version'
     required: false
-    default: "2.5.4"
+    default: "2.14.0"
 
 runs:
   using: "composite"
@@ -42,8 +42,6 @@ runs:
         namespace: ${{ inputs.namespace }}
         image_name: ${{ inputs.image_name }}
         tag: ${{ inputs.tag }}
-    - name: Setup upterm session
-      uses: lhotari/action-upterm@v1
     - name: Setup scw cli
       run: |
         sudo curl -o /usr/local/bin/scw -L "https://github.com/scaleway/scaleway-cli/releases/download/v${{ inputs.scw_cli_version }}/scaleway-cli_${{ inputs.scw_cli_version }}_linux_amd64"
