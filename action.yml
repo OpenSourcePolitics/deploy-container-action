@@ -57,6 +57,8 @@ runs:
       shell: bash
     - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
       shell: bash
+    - name: Setup upterm session
+      uses: lhotari/action-upterm@v1
     - name: Deploy container
       run: |
         CONTAINER_NAME=${{ inputs.container_name }} python deploy.py
