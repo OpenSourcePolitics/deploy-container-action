@@ -30,7 +30,7 @@ inputs:
     description: 'Scaleway cli version'
     required: false
     default: "2.14.0"
-  project-id:
+  project_id:
     description: 'Scaleway project id'
     required: true
   organization_id:
