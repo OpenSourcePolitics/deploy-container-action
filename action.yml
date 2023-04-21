@@ -53,7 +53,11 @@ runs:
       run: |
         sudo curl -o /usr/local/bin/scw -L "https://github.com/scaleway/scaleway-cli/releases/download/v${{ inputs.scw_cli_version }}/scaleway-cli_${{ inputs.scw_cli_version }}_linux_amd64"
         sudo chmod +x /usr/local/bin/scw
-        scw init secret-key=${{ inputs.password }} access-key=${{ inputs.access_key }} project-id=${{ inputs.project_id }} install-autocomplete=false send-telemetry=false with-ssh-key=false
+        scw init secret-key=${{ inputs.password }} \
+        access-key=${{ inputs.access_key }} \
+        project-id=${{ inputs.project_id }} \
+        organization-id=${{ inputs.organization_id }} \
+        install-autocomplete=false send-telemetry=false with-ssh-key=false
       shell: bash
     - name: Deploy container
       run: |
