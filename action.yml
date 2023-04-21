@@ -1,5 +1,5 @@
-name: 'Build and push image to Registry'
-description: 'Build and push image to Registry'
+name: 'Deploy container to Scaleway'
+description: 'Deploy container to Scaleway using scw cli and build and push image to Registry'
 inputs:
   registry:
     description: 'Registry url'
