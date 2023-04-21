@@ -30,6 +30,13 @@ inputs:
     description: 'Scaleway cli version'
     required: false
     default: "2.14.0"
+  project-id:
+    description: 'Scaleway project id'
+    required: true
+  organization_id:
+    description: 'Scaleway organization id'
+    required: false
+    default: "00000000-0000-0000-0000-000000000000"
 
 runs:
   using: "composite"
@@ -46,7 +53,7 @@ runs:
       run: |
         sudo curl -o /usr/local/bin/scw -L "https://github.com/scaleway/scaleway-cli/releases/download/v${{ inputs.scw_cli_version }}/scaleway-cli_${{ inputs.scw_cli_version }}_linux_amd64"
         sudo chmod +x /usr/local/bin/scw
-        scw init secret-key=${{ inputs.password }} access-key=${{ inputs.access_key }} install-autocomplete=false send-telemetry=false with-ssh-key=false
+        scw init secret-key=${{ inputs.password }} access-key=${{ inputs.access_key }} project-id=${{ inputs.project_id }} install-autocomplete=false send-telemetry=false with-ssh-key=false
       shell: bash
     - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
       shell: bash
